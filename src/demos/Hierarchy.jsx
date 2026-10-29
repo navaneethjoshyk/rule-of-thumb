@@ -17,7 +17,7 @@ export default function HierarchyDemo() {
       </div>
       <article className={`event-card event-${mode} ${squint ? 'is-squint' : ''}`}>
         <p className="event-kicker">Saturday, June 13 · 7 pm</p>
-        <h4 className="event-title">Jazz in the Park</h4>
+        <h3 className="event-title">Jazz in the Park</h3>
         <p className="event-place">Trinity Bellwoods, Toronto</p>
         <p className="event-desc">An evening of live jazz from four local trios. Bring a blanket; food trucks open at 6.</p>
         <div className="event-foot">

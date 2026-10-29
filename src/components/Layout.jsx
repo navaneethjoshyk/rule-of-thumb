@@ -13,7 +13,7 @@ export function Logo() {
   )
 }
 
-export function Header({ learned }) {
+export function Header({ learned, section }) {
   const count = lessons.filter((l) => learned.has(l.slug)).length
   return (
     <header className="site-header">
@@ -22,11 +22,15 @@ export function Header({ learned }) {
           <Logo />
           <span>Rule of Thumb</span>
         </a>
-        <div className="progress-pill" aria-label={`${count} of ${lessons.length} lessons learned`}>
+        <nav className="main-nav" aria-label="Main">
+          <a href="#/" aria-current={section === 'lessons' ? 'page' : undefined}>Lessons</a>
+          <a href="#/components" aria-current={section === 'components' ? 'page' : undefined}>Components</a>
+        </nav>
+        <div className="progress-pill">
           <span className="progress-track" aria-hidden="true">
             <span style={{ width: `${(count / lessons.length) * 100}%` }} />
           </span>
-          <span aria-hidden="true">{count} of {lessons.length} learned</span>
+          <span>{count} of {lessons.length} learned</span>
         </div>
       </div>
     </header>

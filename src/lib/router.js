@@ -14,3 +14,4 @@ export function useHashRoute() {
 }
 
 export const lessonHref = (slug) => `#/lesson/${slug}`
+export const componentHref = (slug) => `#/components/${slug}`

@@ -1,6 +1,7 @@
 import FixIt from '../components/FixIt'
+import { components } from '../data/components'
 import { categories, lessons } from '../data/lessons'
-import { lessonHref } from '../lib/router'
+import { componentHref, lessonHref } from '../lib/router'
 
 export default function Home({ progress }) {
   const scrollToLessons = () =>
@@ -58,6 +59,22 @@ export default function Home({ progress }) {
             </div>
           )
         })}
+      </section>
+
+      <section className="wrap home-components" aria-labelledby="home-components-title">
+        <div className="home-components-head">
+          <h2 id="home-components-title">Components</h2>
+          <p>
+            Twelve everyday components built the accessible way, each with a working example, keyboard and ARIA
+            tables, common mistakes and HTML to copy.
+          </p>
+          <a className="btn btn-ghost" href="#/components">Browse all components</a>
+        </div>
+        <ul className="chip-list">
+          {components.map((c) => (
+            <li key={c.slug}><a className="chip" href={componentHref(c.slug)}>{c.name}</a></li>
+          ))}
+        </ul>
       </section>
     </>
   )

@@ -1,9 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { Footer, Header } from './components/Layout'
+import { componentBySlug } from './data/components'
 import { lessonBySlug } from './data/lessons'
 import { useProgress } from './lib/progress'
 import { useHashRoute } from './lib/router'
 import Home from './pages/Home'
+import ComponentPage from './pages/ComponentPage'
+import ComponentsIndex from './pages/ComponentsIndex'
 import LessonPage from './pages/LessonPage'
 
 export default function App() {
@@ -19,16 +22,25 @@ export default function App() {
     main.current?.focus({ preventScroll: true })
   }, [route])
 
-  const match = route.match(/^\/lesson\/([\w-]+)/)
+  const path = route.split('?')[0]
+  const match = path.match(/^\/lesson\/([\w-]+)$/)
   const lesson = match && lessonBySlug[match[1]]
+  const cMatch = path.match(/^\/components\/([\w-]+)$/)
+  const component = cMatch && componentBySlug[cMatch[1]]
+  const section = path.startsWith('/components') ? 'components' : 'lessons'
 
   useEffect(() => {
-    document.title = lesson ? `${lesson.title} · Rule of Thumb` : 'Rule of Thumb: learn UI/UX rules by trying them'
-  }, [lesson])
+    document.title = lesson ? `${lesson.title} · Rule of Thumb`
+      : component ? `${component.name} · Components · Rule of Thumb`
+      : path === '/components' ? 'Components · Rule of Thumb'
+      : 'Rule of Thumb: learn UI/UX rules by trying them'
+  }, [lesson, component, path])
 
   let page
-  if (route === '/') page = <Home progress={progress} />
+  if (path === '/') page = <Home progress={progress} />
   else if (lesson) page = <LessonPage lesson={lesson} progress={progress} />
+  else if (path === '/components') page = <ComponentsIndex />
+  else if (component) page = <ComponentPage key={component.slug} component={component} />
   else page = (
     <section className="wrap notfound">
       <h1>That page doesn’t exist.</h1>
@@ -45,7 +57,7 @@ export default function App() {
       >
         Skip to content
       </a>
-      <Header learned={progress.learned} />
+      <Header learned={progress.learned} section={section} />
       <main id="main" ref={main} tabIndex={-1}>{page}</main>
       <Footer />
     </>
